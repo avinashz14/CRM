@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import *
+from  .filters import orderFilter
+
 
 from .form import CustomerForm, OrderForm
 # Create your views here.
@@ -44,10 +46,14 @@ def customer(request, id):
     orders = customer.order_set.all()
     total_order = orders.count()    
     print(customer)
+
+    order_filter = orderFilter()
+
     context ={
         'customer' : customer,
         'orders' : orders,
         'total_order':total_order,
+        'order_filter':order_filter,
     }
     return render(request, 'accounts/customer.html', context)
 
