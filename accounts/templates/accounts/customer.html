@@ -11,7 +11,7 @@
         <div class="col-md">
             <div class="card text-center text-dark mb-3">
                 <div class="card-header">
-                    <h5 class="card-title">Customer: {{customer.name}}</h5>
+                    <h5 class="card-title">Customer: {{customer.name | upper}}</h5>
                 </div>
                 <div class="card-body">
                     <a href="{% url 'update_customer' customer.id %} " class="btn btn-primary btn-sm btn-block">
@@ -34,13 +34,11 @@
                 <table class="table table-sm table-body">
                     <tr>
                         <th></th>
-                        <th>Name</th>
                         <th>Phone</th>
                         <th>Email</th>
                     </tr>
                     <tr>
                         <td></td>
-                        <td>{{customer.name}}</td>
                         <td>{{customer.phone}}</td>
                         <td>{{customer.email}}</th>
                     </tr>

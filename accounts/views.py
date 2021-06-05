@@ -1,3 +1,4 @@
+from django.db.models.query import QuerySet
 from django.shortcuts import render, redirect
 from django.urls import reverse
 from .models import *
@@ -47,7 +48,8 @@ def customer(request, id):
     total_order = orders.count()    
     print(customer)
 
-    order_filter = orderFilter()
+    order_filter = orderFilter(request.GET, queryset=orders)
+    orders = order_filter.qs
 
     context ={
         'customer' : customer,
