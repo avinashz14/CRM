@@ -1,6 +1,8 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import render, redirect
+from django.urls import reverse
+from .models import *
 
+from .form import CustomerForm, OrderForm
 # Create your views here.
 
 def home(request):
@@ -8,12 +10,122 @@ def home(request):
 
 
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
+    customers = Customer.objects.all()
+    orders = Order.objects.all()
+    total_customers = customers.count()
+    total_orders = orders.count()
+    delivered = orders.filter(status='Delivered').count()
+    pending = orders.filter(status='Pending').count()
+    orders=  orders.order_by('-id')[:5]
+    context ={
+        'products' : products,
+        'customers' : customers,
+        'orders' : orders,
+        'total_customers':total_customers,
+        'total_orders':total_orders,
+        'delivered':delivered,
+        'pending':pending,
+    }
+    return render(request, 'accounts/dashboard.html', context)
 
 
 def products(request):
-    return render(request, 'accounts/products.html')
+    products = Product.objects.all()
+    print(products)
+    context ={
+        'products':products,
+    }
+    return render(request, 'accounts/products.html', context)
 
 
-def customers(request):
-    return render(request, 'accounts/customers.html')
+def customer(request, id):
+
+    customer = Customer.objects.get(id=id)
+    orders = customer.order_set.all()
+    total_order = orders.count()    
+    print(customer)
+    context ={
+        'customer' : customer,
+        'orders' : orders,
+        'total_order':total_order,
+    }
+    return render(request, 'accounts/customer.html', context)
+
+
+
+def createCustomer(request):
+
+    form = CustomerForm()
+    if request.method=='POST':
+        form = CustomerForm(request.POST);
+        if form.is_valid():
+            form.save()
+            print(form.as_p)
+            return redirect('dashboard')
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/create_customer.html', context)
+
+
+def updateCustomer(request, id):
+    
+    customer = Customer.objects.get(id=id)
+    form = CustomerForm(instance=customer)
+    print(customer)
+    if request.method == 'POST':
+        form = CustomerForm(request.POST, instance=customer)
+        if form.is_valid():
+            form.save()
+            return redirect('customer', id=id)
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/create_customer.html', context)
+
+
+def createOrder(request, id):
+    customer = Customer.objects.get(id=id)
+    print(customer)
+    form = OrderForm(initial={'customer':customer})
+    if request.method == 'POST':
+        form  = OrderForm(request.POST)
+        if(form.is_valid()):
+            form.save()
+            return redirect('dashboard')
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/create_order.html', context)
+
+def updateOrder(request, id):
+
+    order = Order.objects.get(id=id)
+    form = OrderForm(instance=order)
+    print(order)
+    if request.method == 'POST':
+        form  = OrderForm(request.POST,instance=order)
+        if(form.is_valid()):
+            form.save()
+            return redirect('dashboard')
+
+    context = {
+        'form':form,
+    }
+    return render(request, 'accounts/create_order.html', context)
+
+def deleteOrder(request, id):
+
+    order = Order.objects.get(id=id)
+    print(order)
+
+    if request.method=='POST':
+        order.delete()
+        return redirect('dashboard')
+
+    context = {
+        'order':order,
+    }
+    return render(request, 'accounts/delete_order.html', context)

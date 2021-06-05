@@ -1,4 +1,6 @@
 from django.db import models
+from django.db.models.deletion import SET_NULL
+from django.db.models.fields.related import ManyToManyField
 
 # Create your models here.
 
@@ -25,13 +27,23 @@ class Product(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    tag = models.CharField(max_length=250, null=True)
+
+    def __str__(self):
+        return self.tag
+
 class Order(models.Model):
     STATUS = (
         ('Pending', 'Pending'),
         ('Out of delivery', 'Out of delivery'),
         ('Delivered','Delivered'),
     )
-    #customer =
-    #product =
+    customer = models.ForeignKey(Customer, null = True, on_delete=SET_NULL)
+    product = models.ForeignKey(Product, null = True, on_delete=SET_NULL)
     date_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=250, null=True, choices=STATUS)
+    tag = ManyToManyField(Tag)
+
+    def __str__(self):
+        return self.product.name

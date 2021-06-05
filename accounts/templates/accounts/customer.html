@@ -11,11 +11,15 @@
         <div class="col-md">
             <div class="card text-center text-dark mb-3">
                 <div class="card-header">
-                    <h5 class="card-title">Edit Customer</h5>
+                    <h5 class="card-title">Customer</h5>
                 </div>
                 <div class="card-body">
-                    <button type="button" class="btn btn-outline-success">Update Customer</button>
-                    <button type="button" class="btn btn-outline-danger">Remove Customer</button>
+                    <a href="{% url 'update_customer' customer.id %} " class="btn btn-primary btn-sm btn-block">
+                        Update Customer
+                    </a>
+                    <a href="{% url 'create_order' customer.id %} " class="btn btn-primary btn-sm btn-block">
+                        Create Order
+                    </a>
                 </div>
             </div>
         </div>
@@ -27,11 +31,20 @@
                 <div class="card-header">
                     <h5 class="card-title">Contact Information</h5>
                 </div>
-                <ul class="list-group text-left">
-                    <li class="list-group-item">Name:</li>
-                    <li class="list-group-item">Phone:</li>
-                    <li class="list-group-item">Email:</li>
-                </ul>
+                <table class="table table-sm table-body">
+                    <tr>
+                        <th></th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Email</th>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>{{customer.name}}</td>
+                        <td>{{customer.phone}}</td>
+                        <td>{{customer.email}}</th>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
@@ -43,7 +56,7 @@
                     <h5 class="card-title">Total Orders</h5>
                 </div>
                 <div class="card-body">
-                    <h3 class="card-title"></h3>
+                    <h3 class="card-title">{{ total_order }}</h3>
                 </div>
             </div>
         </div>
@@ -71,6 +84,7 @@
         <div class="card card-body">
             <table class="table table-sm table-body">
                 <tr>
+                    <th></th>
                     <th>Product</th>
                     <th>Category</th>
                     <th>Date Ordered</th>
@@ -78,6 +92,17 @@
                     <th>Update</th>
                     <th>Remove</th>
                 </tr>
+                {% for order in orders %}
+                  <tr>
+                      <td></td>
+                      <td>{{order.product}}</td>
+                      <td>{{order.product.category}}</td>
+                      <td>{{order.date_created}}</td>
+                      <td>{{order.status}}</td>
+                      <td><a class="btn btn-sm btn-info" href="{% url 'update_order' order.id %}">Update</a></td>
+                      <td><a class="btn btn-sm btn-danger" href="{% url 'delete_order' order.id %}">Romove</a></td>
+                  </tr>
+                {% endfor %}
             </table>
         </div>
     </div>

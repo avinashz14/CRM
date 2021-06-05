@@ -1,0 +1,24 @@
+{% extends "accounts/home.html" %}
+
+{% block title %}
+  Create Order
+{% endblock title %}
+
+{% block content %}
+  
+<br>
+<div class="ml-5">
+    <div class="row text-center ">
+        <div class="col" >
+            <div class="cord card-body text-center bg-light d-inline-block">
+                <form action="" method="post">
+                    {% csrf_token %}
+                    {{ form.as_p}}
+                    <input class="btn btn-sm btn-success" type="submit" name="submit">
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock content %}

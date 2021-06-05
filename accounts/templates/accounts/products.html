@@ -5,5 +5,32 @@
 {% endblock title %}
 
 {% block content %}
-   <h1>Products</h1>
+
+<br>
+
+  <div class="row">
+    <div class="col-md">
+        <div class="card card-body">
+          <h5 class="card-header">Products</h5>
+        </div>
+        <div class="card card-body">
+            <table class="table table-sm">
+                <tr>
+                    <th></th>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                </tr>
+                {% for product in products %}
+                <tr>
+                  <td></td>
+                  <td>{{product.name}}</td>
+                  <td>{{product.category}}</td>
+                  <td>{{product.price}}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+  </div>
 {% endblock content %}
