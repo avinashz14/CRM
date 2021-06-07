@@ -1,10 +1,13 @@
 from django.db import models
-from django.db.models.deletion import SET_NULL
+from django.db.models.deletion import CASCADE, SET_NULL
 from django.db.models.fields.related import ManyToManyField
+
+from django.contrib.auth.models import User
 
 # Create your models here.
 
 class Customer(models.Model):
+    user = models.OneToOneField(User, null=True, on_delete=CASCADE)
     name = models.CharField(max_length=250, null=True)
     phone = models.CharField(max_length=250, null=True)
     email = models.EmailField(max_length=250, null=True)

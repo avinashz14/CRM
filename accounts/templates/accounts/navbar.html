@@ -1,27 +1,25 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-       
-      <a class="navbar-brand" href="{% url 'home' %}"> <img src="{% static 'images/logo.png' %}" alt=""></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+  <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo03" aria-controls="navbarTogglerDemo03" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNav">
-        <ul class="navbar-nav">
-          {% if request.user.is_stuff %}
+      <a class="navbar-brand" href="{% url 'home' %}"> <img src="{% static 'images/logo.png' %}" alt=""></a>
+    
+      <div class="collapse navbar-collapse" id="navbarTogglerDemo03">
+        <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+          {% if request.user.is_staff %}
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="{% url 'dashboard' %} ">Dashboard</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'products' %}">Products</a>
-            </li>            
+            </li>   
           {% endif %}
-          
         </ul>
+        <span class="hello-msg float-right">Hello, {{request.user | capfirst}}</span>
+        <span ><a class="hello-msg float-right d-inline" href="{% url 'logout' %} ">logout</a>
+        </span>
       </div>
-      <div class="float-right text-white" id="navbarNav">
-        <span class="hello-msg">Hello, {{request.user | capfirst}}</span>
-        <span ><a class="hello-msg" href="{% url 'logout' %} ">logout</a></span>
-      </div>
-    </div>
-  </nav>
+  </div>
+</nav>
