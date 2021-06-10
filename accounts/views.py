@@ -114,8 +114,14 @@ def userPage(request, id):
 @allowed_users(allowed_roles=['customer'])
 def userSettingPage(request):
     customer = request.user.customer
-    
     form  = CustomerForm(instance=customer)
+    if request.method == 'POST':
+        form  = CustomerForm(request.POST, request.FILES, instance=customer)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Successfully updated!!')
+            print('successfully user data updated')
+            return redirect('user_setting')
     context ={
         'form':form,
     }
@@ -146,6 +152,7 @@ def customer(request, id):
 def createCustomer(request):
 
     form = CustomerForm()
+    
     if request.method=='POST':
         form = CustomerForm(request.POST);
         if form.is_valid():
@@ -163,7 +170,7 @@ def createCustomer(request):
 def updateCustomer(request, id):
     
     customer = Customer.objects.get(id=id)
-    form = CustomerForm(instance=customer)
+    form = CustomerForm(instance=customer)  
     print(customer)
     if request.method == 'POST':
         form = CustomerForm(request.POST, instance=customer)
@@ -178,9 +185,12 @@ def updateCustomer(request, id):
 @login_required(login_url='login')
 @allowed_users(allowed_roles=['admin','stuff'])
 def createOrder(request, id):
+    
     customer = Customer.objects.get(id=id)
-    print(customer)
+    print(customer) 
+    
     form = OrderForm(initial={'customer':customer})
+        
     if request.method == 'POST':
         form  = OrderForm(request.POST)
         if(form.is_valid()):
@@ -189,7 +199,7 @@ def createOrder(request, id):
 
     context = {
         'form':form,
-    }
+    }    
     return render(request, 'accounts/create_order.html', context)
 
 @login_required(login_url='login')

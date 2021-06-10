@@ -7,21 +7,21 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Customer(models.Model):
-    user = models.OneToOneField(User, null=True, on_delete=CASCADE)
+    user = models.OneToOneField(User, null=True, blank=True, on_delete=CASCADE)
     name = models.CharField(max_length=250, null=True)
     phone = models.CharField(max_length=250, null=True)
     email = models.EmailField(max_length=250, null=True)
-    profile_pic = models.ImageField(null=True, blank=True)
+    profile_pic = models.ImageField(default='user.png', null=True, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
         
 class Tag(models.Model):
     tag = models.CharField(max_length=250, null=True)
 
     def __str__(self):
-        return self.tag
+        return str(self.tag)
 
 
 class Product(models.Model):
@@ -37,7 +37,7 @@ class Product(models.Model):
     tag = ManyToManyField(Tag)
 
     def __str__(self):
-        return self.name
+        return str(self.name)
 
 class Order(models.Model):
     STATUS = (
@@ -45,10 +45,11 @@ class Order(models.Model):
         ('Out of delivery', 'Out of delivery'),
         ('Delivered','Delivered'),
     )
-    customer = models.ForeignKey(Customer, null = True, on_delete=SET_NULL)
-    product = models.ForeignKey(Product, null = True, on_delete=SET_NULL)
+    customer = models.ForeignKey(Customer, null = True, on_delete=models.DO_NOTHING)
+    product = models.ForeignKey(Product, null = True, on_delete=models.DO_NOTHING)
     date_created = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=250, null=True, choices=STATUS)
-
+    
     def __str__(self):
-        return self.product.name
+        return str(self.product.name)
+

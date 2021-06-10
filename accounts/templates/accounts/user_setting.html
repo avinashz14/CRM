@@ -4,35 +4,46 @@
   User-setting | CRM
 {% endblock title %}
 
+
 {% block content %}
-  
+  <style>
+    .profile-pic{
+        max-width: 200px;
+        max-height: 200px;
+        border-left: 5px solid #000;
+        border-right: 5px solid #000;
+        border-radius: 50%;
+        margin: 0 auto;
+    }
+</style>
+
 <br>
 <h4>USER PROFILE:</h4>
 <hr>
+   {% for message in messages %}
+     <p>{{message}}</p>
+   {% endfor %}
 <div class="container-fluid">
     <div class="row">
-        <div class="col col-md-3">
-              <div class="col bg-dark ">
-                  <div class="card mx-auto">
-                      
-                      <div class="card card-header text-center">
-                          <h5>{{request.user | upper}}</h5>
-                      </div>
-                      <div class="card card-body">
-                          <img src="{{request.user.customer.profile_pic.url}}" class="rounded float-left" alt="user-profile-pic">
-                      </div>
-                  </div>
-              </div>
+        <div class="col-md-3">
+            <div class="card text-center">
+                <span><a class="btn btn-warning btn-block " href="{% url 'user' request.user.customer.id %} ">&#8592; Go to back</a></span>
+            </div>
+            <div class="card card-body">
+                <h3 class="text-center">Accounts Settings </h3>
+                <hr>
+                    <img class="profile-pic bg-danger" src="{{request.user.customer.profile_pic.url}}"  alt="user-profile-pic">
+            </div>
         </div>
-        <div class="col col-md-9 bg-light">
-            <div class="ml-5">
+        <div class="col-md-9 bg-light">
+            <div class="my-2">
                 <div class="row text-center ">
                     <div class="col" >
-                        <div class="cord card-body text-center bg-light d-inline-block">
-                            <form action="" method="post">
+                        <div class="cord card-body text-center bg-light d-inline-block bg-white">
+                            <form action="" method="post" enctype="multipart/form-data" >
                                 {% csrf_token %}
                                 {{ form.as_p}}
-                                <input class="btn btn-sm btn-success" type="submit" name="submit">
+                                <input class="btn btn-sm btn-success" type="submit" name="submit" value="Update Customer">
                             </form>
                         </div>
                     </div>

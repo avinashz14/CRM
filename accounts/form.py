@@ -1,5 +1,4 @@
 from django.contrib.auth.models import User
-from django.db.models import fields
 from django.forms import ModelForm
 from .models import Customer, Order
 from django.contrib.auth.forms import UserCreationForm

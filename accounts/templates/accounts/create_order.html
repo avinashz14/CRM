@@ -1,7 +1,7 @@
 {% extends "accounts/home.html" %}
 
 {% block title %}
-  Create Order
+  Create Order | CRM
 {% endblock title %}
 
 {% block content %}
@@ -14,7 +14,7 @@
                 <form action="" method="post">
                     {% csrf_token %}
                     {{ form.as_p}}
-                    <input class="btn btn-sm btn-success" type="submit" name="submit">
+                    <input class="btn btn-sm btn-success" type="submit" name="submit" value="Create Order">
                 </form>
             </div>
         </div>
